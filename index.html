@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Robux Vintrzy Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4338ca; }
+        .glow-effect { box-shadow: 0 0 5px #4f46e5, 0 0 10px #4f46e5, 0 0 15px #4f46e5; }
+        .tab-btn.active {
+            background-color: #4f46e5;
+            color: #ffffff;
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white antialiased">
+
+    <!-- Kontainer Utama -->
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-indigo-400 mb-2">Toko Robux Terpercaya</h1>
+            <p class="text-lg text-gray-300">Pilih metode pembelian Anda.</p>
+        </header>
+
+        <!-- Sistem Tab -->
+        <div class="w-full max-w-5xl mx-auto">
+            <!-- Tombol Tab -->
+            <div class="flex border-b border-gray-700 mb-6">
+                <button id="tab-login-btn" class="tab-btn active text-lg font-semibold py-3 px-6 text-gray-300 border-b-2 border-transparent hover:bg-gray-800 focus:outline-none">
+                    Via Login
+                </button>
+                <button id="tab-gamepass-btn" class="tab-btn text-lg font-semibold py-3 px-6 text-gray-300 border-b-2 border-transparent hover:bg-gray-800 focus:outline-none">
+                    Via Gamepass (Kalkulator)
+                </button>
+            </div>
+
+            <!-- Konten Tab -->
+            <div>
+                <!-- Konten untuk Via Login -->
+                <div id="tab-login-content">
+                    <p class="text-center text-gray-400 mb-6">Proses cepat dan aman. Pilih paket di bawah ini.</p>
+                    <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- Produk "Via Login" dimuat di sini -->
+                    </div>
+                </div>
+
+                <!-- Konten untuk Via Gamepass -->
+                <div id="tab-gamepass-content" class="hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        
+                        <!-- Kalkulator 1: AFTER TAX -->
+                        <div class="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col">
+                            <h3 class="text-xl font-bold text-center text-teal-400 mb-1">KALKULATOR AFTER TAX</h3>
+                            <p class="text-center text-gray-400 text-sm mb-4">Harga: <span class="font-semibold">Rp 115</span> / Robux (yang Anda terima)</p>
+                            
+                            <div class="space-y-4 flex-grow">
+                                <div>
+                                    <label for="after-tax-input" class="block text-sm font-medium text-gray-300 mb-1">Jumlah Robux yang ingin DITERIMA</label>
+                                    <input type="number" id="after-tax-input" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white text-lg focus:ring-2 focus:ring-teal-500 outline-none" placeholder="Contoh: 700">
+                                </div>
+                                <div class="bg-gray-900/50 p-4 rounded-md text-center">
+                                    <p class="text-sm text-gray-400">Harga yang harus Anda bayar:</p>
+                                    <p id="after-tax-price" class="text-2xl font-bold text-white">-</p>
+                                </div>
+                                <div class="bg-yellow-900/30 border border-yellow-500 p-3 rounded-md text-center">
+                                    <p class="text-sm text-yellow-300">Anda harus atur harga Gamepass ke:</p>
+                                    <p id="after-tax-gamepass-price" class="text-xl font-semibold text-yellow-200">-</p>
+                                </div>
+                            </div>
+                            <button id="buy-after-tax-btn" class="w-full mt-4 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-md transition disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>Beli (After Tax)</button>
+                        </div>
+                        
+                        <!-- Kalkulator 2: BEFORE TAX -->
+                        <div class="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col">
+                            <h3 class="text-xl font-bold text-center text-amber-400 mb-1">KALKULATOR BEFORE TAX</h3>
+                            <p class="text-center text-gray-400 text-sm mb-4">Harga: <span class="font-semibold">Rp 65</span> / Robux (sebelum pajak)</p>
+                            
+                            <div class="space-y-4 flex-grow">
+                                <div>
+                                    <label for="before-tax-input" class="block text-sm font-medium text-gray-300 mb-1">Jumlah Robux di Gamepass (SEBELUM PAJAK)</label>
+                                    <input type="number" id="before-tax-input" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white text-lg focus:ring-2 focus:ring-amber-500 outline-none" placeholder="Contoh: 1000">
+                                </div>
+                                <div class="bg-gray-900/50 p-4 rounded-md text-center">
+                                    <p class="text-sm text-gray-400">Harga yang harus Anda bayar:</p>
+                                    <p id="before-tax-price" class="text-2xl font-bold text-white">-</p>
+                                </div>
+                                <div class="bg-green-900/30 border border-green-500 p-3 rounded-md text-center">
+                                    <p class="text-sm text-green-300">Robux yang akan Anda terima:</p>
+                                    <p id="before-tax-robux-received" class="text-xl font-semibold text-green-200">-</p>
+                                </div>
+                            </div>
+                             <button id="buy-before-tax-btn" class="w-full mt-4 bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-md transition disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>Beli (Before Tax)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Checkout -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 relative transform transition-all scale-95 opacity-0" id="checkout-modal-content">
+            <button id="close-checkout-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+            <h2 class="text-2xl font-bold mb-2 text-indigo-400">Formulir Pembelian</h2>
+            <p class="text-gray-300 mb-4">Anda membeli: <span id="product-name" class="font-semibold"></span></p>
+            <form id="checkout-form">
+                
+                <div id="login-fields" class="hidden space-y-4 mb-4">
+                    <div>
+                        <label for="roblox-username" class="block text-sm font-medium text-gray-300 mb-1">Username Roblox</label>
+                        <input type="text" id="roblox-username" name="roblox_username" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white">
+                    </div>
+                    <div>
+                        <label for="roblox-password" class="block text-sm font-medium text-gray-300 mb-1">Password Akun</label>
+                        <input type="password" id="roblox-password" name="roblox_password" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white">
+                        <p class="text-xs text-yellow-400 mt-1">PENTING: Demi keamanan, gunakan password sementara atau matikan verifikasi 2 langkah untuk sementara.(untuk memastikan password kami akan menghubungi anda secepat mungkin🙏🏻)</p>
+                    </div>
+                </div>
+
+                <div id="gamepass-fields" class="hidden space-y-4 mb-4">
+                    <div>
+                        <label for="gamepass-roblox-username" class="block text-sm font-medium text-gray-300 mb-1">Username Roblox</label>
+                        <input type="text" id="gamepass-roblox-username" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white">
+                    </div>
+                    <div>
+                        <label for="gamepass-name" class="block text-sm font-medium text-gray-300 mb-1">Nama Gamepass</label>
+                        <input type="text" id="gamepass-name" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white">
+                    </div>
+                    <div>
+                        <label for="gamepass-link" class="block text-sm font-medium text-gray-300 mb-1">Link Gamepass</label>
+                        <input type="url" id="gamepass-link" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white">
+                    </div>
+                </div>
+
+                <div class="mb-4"><label for="email" class="block text-sm font-medium text-gray-300 mb-1">Alamat Email</label><input type="email" id="email" name="buyer_email" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white" required></div>
+                <div class="mb-6"><label for="whatsapp" class="block text-sm font-medium text-gray-300 mb-1">Nomor WhatsApp</label><input type="tel" id="whatsapp" name="buyer_wa" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white" required></div>
+                <button type="submit" id="submit-order-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-md transition">Lanjutkan ke Pembayaran</button>
+            </form>
+            <p id="form-error" class="text-red-400 text-sm mt-3 text-center"></p>
+        </div>
+    </div>
+    
+    <!-- Modal Pembayaran -->
+    <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-sm p-6 text-center relative transform transition-all scale-95 opacity-0" id="payment-modal-content">
+            <button id="close-payment-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+            <h2 class="text-2xl font-bold mb-3 text-indigo-400">Selesaikan Pembayaran</h2>
+            <p class="text-gray-300 mb-4">Pindai kode QRIS di bawah ini untuk membayar.</p>
+            <img src="https://i.ibb.co/9SZk5MK/share-image-1752403735153.png" alt="Kode QRIS Pembayaran" class="mx-auto rounded-lg mb-4 glow-effect" id="qris-image">
+            <div class="bg-gray-700 p-3 rounded-lg"><p class="text-sm text-gray-400">Total Pembayaran</p><p id="payment-total" class="text-2xl font-bold text-white"></p></div>
+            <p class="text-xs text-gray-500 mt-4">Notifikasi telah dikirim ke email Anda.</p>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- KONFIGURASI PENTING ---
+        const EMAILJS_SERVICE_ID = 'service_1eha63i';
+        const EMAILJS_TEMPLATE_SELLER_ID = 'template_5xoqgp4'; // <-- DIUPDATE
+        const EMAILJS_TEMPLATE_BUYER_ID = 'template_shg6yq8'; 
+        const EMAILJS_PUBLIC_KEY = 'v5LUK8vTADXAS1xPs';
+        const SELLER_EMAIL = 'abdulsukri82@gmail.com';
+        const QRIS_IMAGE_URL = 'https://i.ibb.co/9SZk5MK/share-image-1752403735153.png';
+        
+        // --- KONFIGURASI HARGA & PAJAK ---
+        const AFTER_TAX_PRICE_PER_ROBUX = 115;
+        const BEFORE_TAX_PRICE_PER_ROBUX = 65;
+        const ROBLOX_TAX_MULTIPLIER = 1 / (1 - 0.30); // ~1.42857
+
+        // --- DATA PRODUK (VIA LOGIN) ---
+        const products = [
+            { id: 1, name: '80 Robux', price: 15000 }, { id: 2, name: '160 Robux', price: 30000 },
+            { id: 3, name: '400 Robux', price: 75000 }, { id: 4, name: '800 Robux', price: 150000 },
+            { id: 5, name: '1,700 Robux', price: 300000 }, { id: 6, name: '2,400 Robux', price: 450000 },
+        ];
+
+        // --- ELEMEN DOM ---
+        const checkoutModal = document.getElementById('checkout-modal');
+        const paymentModal = document.getElementById('payment-modal');
+        const checkoutForm = document.getElementById('checkout-form');
+        const formError = document.getElementById('form-error');
+        const loginFields = document.getElementById('login-fields');
+        const gamepassFields = document.getElementById('gamepass-fields');
+        const tabLoginBtn = document.getElementById('tab-login-btn');
+        const tabGamepassBtn = document.getElementById('tab-gamepass-btn');
+        const afterTaxInput = document.getElementById('after-tax-input');
+        const afterTaxPriceEl = document.getElementById('after-tax-price');
+        const afterTaxGamepassPriceEl = document.getElementById('after-tax-gamepass-price');
+        const buyAfterTaxBtn = document.getElementById('buy-after-tax-btn');
+        const beforeTaxInput = document.getElementById('before-tax-input');
+        const beforeTaxPriceEl = document.getElementById('before-tax-price');
+        const beforeTaxRobuxReceivedEl = document.getElementById('before-tax-robux-received');
+        const buyBeforeTaxBtn = document.getElementById('buy-before-tax-btn');
+
+        let currentOrder = null;
+        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+
+        // --- LOGIKA TAB ---
+        function switchTab(activeTab) {
+            tabLoginBtn.classList.toggle('active', activeTab === 'login');
+            tabGamepassBtn.classList.toggle('active', activeTab === 'gamepass');
+            document.getElementById('tab-login-content').classList.toggle('hidden', activeTab !== 'login');
+            document.getElementById('tab-gamepass-content').classList.toggle('hidden', activeTab !== 'gamepass');
+        }
+        tabLoginBtn.addEventListener('click', () => switchTab('login'));
+        tabGamepassBtn.addEventListener('click', () => switchTab('gamepass'));
+
+        // --- LOGIKA KALKULATOR ---
+        function handleAfterTaxCalc() {
+            const amount = parseInt(afterTaxInput.value);
+            if (!amount || amount <= 0) { afterTaxPriceEl.textContent = '-'; afterTaxGamepassPriceEl.textContent = '-'; buyAfterTaxBtn.disabled = true; return; }
+            const buyerPrice = amount * AFTER_TAX_PRICE_PER_ROBUX;
+            const gamepassPrice = Math.ceil(amount * ROBLOX_TAX_MULTIPLIER);
+            afterTaxPriceEl.textContent = formatRupiah(buyerPrice);
+            afterTaxGamepassPriceEl.textContent = `${gamepassPrice} Robux`;
+            buyAfterTaxBtn.disabled = false;
+        }
+        function handleBeforeTaxCalc() {
+            const amount = parseInt(beforeTaxInput.value);
+            if (!amount || amount <= 0) { beforeTaxPriceEl.textContent = '-'; beforeTaxRobuxReceivedEl.textContent = '-'; buyBeforeTaxBtn.disabled = true; return; }
+            const buyerPrice = amount * BEFORE_TAX_PRICE_PER_ROBUX;
+            const robuxReceived = Math.floor(amount * (1 - 0.30));
+            beforeTaxPriceEl.textContent = formatRupiah(buyerPrice);
+            beforeTaxRobuxReceivedEl.textContent = `~${robuxReceived} Robux`;
+            buyBeforeTaxBtn.disabled = false;
+        }
+        afterTaxInput.addEventListener('input', handleAfterTaxCalc);
+        beforeTaxInput.addEventListener('input', handleBeforeTaxCalc);
+
+        // --- LOGIKA PEMBELIAN & MODAL ---
+        function openCheckoutModal(order) {
+            currentOrder = order;
+            document.getElementById('product-name').textContent = `${order.name} - ${formatRupiah(order.price)}`;
+            formError.textContent = '';
+            checkoutForm.reset();
+            loginFields.classList.toggle('hidden', order.method !== 'login');
+            gamepassFields.classList.toggle('hidden', order.method !== 'gamepass');
+            showModal(checkoutModal);
+        }
+        document.getElementById('product-list').addEventListener('click', (e) => {
+            if (e.target.classList.contains('buy-login-btn')) {
+                const product = products.find(p => p.id === parseInt(e.target.dataset.id));
+                if (product) openCheckoutModal({ ...product, method: 'login' });
+            }
+        });
+        buyAfterTaxBtn.addEventListener('click', () => {
+            const amount = parseInt(afterTaxInput.value);
+            if (amount > 0) openCheckoutModal({ name: `${amount} Robux (After Tax)`, price: amount * AFTER_TAX_PRICE_PER_ROBUX, method: 'gamepass', amount });
+        });
+        buyBeforeTaxBtn.addEventListener('click', () => {
+            const amount = parseInt(beforeTaxInput.value);
+            if (amount > 0) openCheckoutModal({ name: `${amount} Robux (Before Tax)`, price: amount * BEFORE_TAX_PRICE_PER_ROBUX, method: 'gamepass', amount });
+        });
+        
+        // --- LOGIKA SUBMIT FORM (EMAILJS) ---
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            formError.textContent = '';
+            
+            if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_SELLER_ID || !EMAILJS_PUBLIC_KEY || !SELLER_EMAIL) {
+                formError.textContent = 'Konfigurasi EmailJS belum lengkap. Hubungi admin.';
+                return;
+            }
+
+            let order_details = '';
+            let roblox_username = '';
+
+            if (currentOrder.method === 'login') {
+                const username = document.getElementById('roblox-username').value;
+                const password = document.getElementById('roblox-password').value;
+                if (!username || !password) { formError.textContent = 'Harap isi Username dan Password.'; return; }
+                roblox_username = username;
+                order_details = `Metode: Via Login Akun\nUsername: ${username}\nPassword: ${password}\n\n(PENTING: Segera ganti password setelah transaksi selesai!)`;
+            } else { // Gamepass
+                const username = document.getElementById('gamepass-roblox-username').value;
+                const gamepassName = document.getElementById('gamepass-name').value;
+                const gamepassLink = document.getElementById('gamepass-link').value;
+                if (!username || !gamepassName || !gamepassLink) { formError.textContent = 'Harap isi semua kolom Gamepass.'; return; }
+                roblox_username = username;
+                const gamepassPrice = currentOrder.name.includes('After Tax') ? Math.ceil(currentOrder.amount * ROBLOX_TAX_MULTIPLIER) : currentOrder.amount;
+                order_details = `Metode: Via Gamepass (${currentOrder.name.includes('After Tax') ? 'After' : 'Before'} Tax)\nNama Gamepass: ${gamepassName}\nLink: ${gamepassLink}\nHarga Gamepass yg harus di set: ${gamepassPrice} Robux`;
+            }
+
+            const templateParams = {
+                product_name: currentOrder.name,
+                product_price: formatRupiah(currentOrder.price),
+                roblox_username: roblox_username,
+                buyer_email: document.getElementById('email').value,
+                buyer_wa: document.getElementById('whatsapp').value,
+                seller_email: SELLER_EMAIL,
+                order_details: order_details
+            };
+
+            const submitButton = document.getElementById('submit-order-btn');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Mengirim...';
+
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_SELLER_ID, templateParams, EMAILJS_PUBLIC_KEY);
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_BUYER_ID, templateParams, EMAILJS_PUBLIC_KEY);
+                
+                hideModal(checkoutModal);
+                document.getElementById('payment-total').textContent = formatRupiah(currentOrder.price);
+                document.getElementById('qris-image').src = QRIS_IMAGE_URL;
+                showModal(paymentModal);
+
+            } catch (error) {
+                if (error.text && error.text.includes("The recipient's address is empty")) {
+                    formError.textContent = "Error: Alamat email tujuan di template EmailJS kosong.";
+                } else {
+                    formError.textContent = `Gagal mengirim email. Error: ${error.text || 'Unknown'}`;
+                }
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Lanjutkan ke Pembayaran';
+            }
+        }
+        checkoutForm.addEventListener('submit', handleFormSubmit);
+
+        // --- Fungsi Helper & Inisialisasi ---
+        function showModal(modal) { modal.classList.remove('hidden'); setTimeout(() => { modal.querySelector('.transform').classList.remove('scale-95', 'opacity-0'); }, 10); }
+        function hideModal(modal) { modal.querySelector('.transform').classList.add('scale-95', 'opacity-0'); setTimeout(() => modal.classList.add('hidden'), 300); }
+        document.getElementById('close-checkout-modal').addEventListener('click', () => hideModal(checkoutModal));
+        document.getElementById('close-payment-modal').addEventListener('click', () => hideModal(paymentModal));
+        
+        document.getElementById('product-list').innerHTML = products.map(p => `
+            <div class="bg-gray-800 rounded-lg p-6 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300 shadow-lg">
+                <img src="https://placehold.co/80x80/111827/93c5fd?text=R$" alt="Robux Icon" class="w-20 h-20 mb-4 rounded-full">
+                <h3 class="text-xl font-bold text-white mb-2">${p.name}</h3>
+                <p class="text-2xl font-semibold text-indigo-400 mb-4">${formatRupiah(p.price)}</p>
+                <button class="buy-login-btn mt-auto w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-md transition" data-id="${p.id}">Beli Sekarang</button>
+            </div>`).join('');
+    });
+    </script>
+</body>
+</html>
+
