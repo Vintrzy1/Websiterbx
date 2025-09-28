@@ -1,19 +1,19 @@
 {
-    "version": 2,
-    "framework": null,
-    "functions": {
-        "*.php": {
-            "runtime": "vercel-php@0.7.4"
-        }
+  "version": 2,
+  "framework": null,
+  "functions": {
+    "api/vercel-php.php": { 
+      "runtime": "vercel-php@0.7.4"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)\\.php",
+      "dest": "/$1.php"
     },
-    "routes": [
-        {
-            "src": "/(.*)\\.php",
-            "dest": "/$1.php"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.php"
-        }
-    ]
+    {
+      "src": "/(.*)",
+      "dest": "/index.php"
+    }
+  ]
 }
